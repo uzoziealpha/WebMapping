@@ -7,12 +7,14 @@ data = pandas.read_csv("Volcanoes.txt")
 lat = list(data["LAT"])
 lon = list(data["LON"])
 
+#making the popup markers dynamic
 
-
-
+elev = list(data["ELEV"])
 
 
 map = folium.Map(location=[38.58, -99.09], zoom_start=6, tiles= "Stamen Terrain")
+
+
 #we add elements or obejcts into the map from here 
 #1.. Adding Map Markers
 fg = folium.FeatureGroup(name="MyMap")
@@ -24,9 +26,11 @@ fg = folium.FeatureGroup(name="MyMap")
 
 
 
-#to iterate over a new list
-for lt, ln in zip(lat, lon):
-    fg.add_child(folium.Marker(location=[lt, ln], popup="Hi I am a Marker", icon=folium.Icon(color="purple")))
+#to iterate over a new list in tupules (lat, lon, elev)
+for lt, ln, el in zip(lat, lon, elev):
+    fg.add_child(folium.Marker(location=[lt, ln], popup=str(el)+ " m", icon=folium.Icon(color="purple")))
+
+
 
 
 map.add_child(fg)
