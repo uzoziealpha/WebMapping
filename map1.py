@@ -1,6 +1,7 @@
 import folium
 import pandas
 
+
 data = pandas.read_csv("Volcanoes.txt")
 
 #created two list from the volcanoes.txt using python
@@ -22,11 +23,11 @@ elev = list(data["ELEV"])
 #Creating a color generation function
 def color_producer(elevation):
     if elevation < 1000:
-      return 'purple'
+      return 'green'
     elif 1000 <= elevation < 3000:
         return 'orange'
     else:
-        return 'green'
+        return 'red'
 
 
 
@@ -55,7 +56,14 @@ for lt, ln, el in zip(lat, lon, elev):
 
 
 #adding polygons map layers- open is a way to object jSON file objects
-fg.add_child(folium.GeoJson(data=(open('world.json', 'r', encoding='utf-8-sig').read())))
+fg.add_child(folium.GeoJson(data=open('world.json', 'r', encoding='utf-8-sig')
+.read(), style_function= lambda x: {'fillColor':'green' if x['properties']['POP2005'] < 10000000 
+else 'orange' if 10000000 <= x['properties']['POP2005'] < 20000000 else 'red'}))
+#using lambda function to style and populate to yellow
+#lambda function are functions written in a line of code
+#example l = lambda x: x**2
+#        l(5) = 25
+
 
 
 
